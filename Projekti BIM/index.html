@@ -6,7 +6,7 @@
   <title>Bible Multilingual Study</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root {
+       :root {
       --primary: #1e3a8a;
       --secondary: #2563eb;
       --bg: #f3f4f6;
@@ -19,6 +19,7 @@
       --color-sq: #FFEBEE;
       --transition: 0.3s ease;
     }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -28,6 +29,7 @@
       flex-direction: column;
       height: 100vh;
     }
+
     header {
       background: var(--primary);
       color: white;
@@ -35,17 +37,22 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      flex-wrap: wrap;
     }
+
     header h1 {
       font-size: 1.5rem;
       font-weight: 600;
       flex: 1;
     }
+
     .controls {
       display: flex;
       gap: 0.5rem;
       align-items: center;
+      flex-wrap: wrap;
     }
+
     select,
     button {
       padding: 0.5rem 0.75rem;
@@ -57,15 +64,18 @@
       cursor: pointer;
       transition: background var(--transition);
     }
+
     button.nav {
       background: var(--secondary);
       color: white;
     }
+
     main {
       flex: 1;
       display: flex;
       overflow: hidden;
     }
+
     #content {
       flex: 1 1 0;
       background: white;
@@ -75,29 +85,35 @@
       flex-direction: column;
       gap: 1rem;
     }
+
     .translation {
       border-radius: 0.5rem;
       padding: 1rem;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       transition: transform var(--transition);
     }
+
     .translation:hover {
       transform: translateY(-3px);
     }
+
     .lang-en { background: var(--color-en); }
     .lang-fr { background: var(--color-fr); }
     .lang-it { background: var(--color-it); }
     .lang-de { background: var(--color-de); }
     .lang-sq { background: var(--color-sq); }
+
     .translation h2 {
       margin: 0 0 0.5rem;
       font-size: 1.1rem;
       color: var(--secondary);
     }
+
     .translation p {
       margin: 0;
       line-height: 1.5;
     }
+
     #image-panel {
       flex: 0 0 40%;
       background: var(--bg);
@@ -108,6 +124,7 @@
       padding: 1rem;
       border-left: 1px solid #ddd;
     }
+
     #verse-image {
       max-width: 100%;
       border-radius: 0.5rem;
@@ -115,54 +132,57 @@
       opacity: 0;
       transition: opacity var(--transition);
     }
+
     #verse-image.loaded {
       opacity: 1;
     }
+
     .progress {
       margin-top: 0.75rem;
       font-size: 0.9rem;
       color: var(--text);
     }
 
+    /* Responsive Design */
     @media (max-width: 768px) {
-    header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-    header h1 {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-    }
+      header h1 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+      }
 
-    .controls {
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      width: 100%;
-    }
+      .controls {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        width: 100%;
+      }
 
-    .controls select,
-    .controls button {
-      flex: 1 1 45%;
-    }
+      .controls select,
+      .controls button {
+        flex: 1 1 45%;
+      }
 
-    main {
-      flex-direction: column;
-    }
+      main {
+        flex-direction: column;
+      }
 
-    #image-panel {
-      flex: 1 1 auto;
-      width: 100%;
-      border-left: none;
-      border-top: 1px solid #ddd;
-      padding: 1rem;
-    }
+      #image-panel {
+        flex: 1 1 auto;
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #ddd;
+        padding: 1rem;
+      }
 
-    #verse-image {
-      max-width: 100%;
-      height: auto;
+      #verse-image {
+        max-width: 100%;
+        height: auto;
+      }
     }
-  }
   </style>
 </head>
 <body>
