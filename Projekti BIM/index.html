@@ -3,75 +3,117 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mobile Bible Study</title>
+  <title>Multilingual Bible Study</title>
   <style>
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #2563eb;
+      --text: #111827;
+      --bg: #f3f4f6;
+      --radius: 0.5rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: sans-serif;
-      background: #f3f4f6;
-      color: #111827;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     header {
-      background: #1e3a8a;
+      background: var(--primary);
       color: white;
       padding: 1rem;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
     header h1 {
       margin: 0;
       font-size: 1.5rem;
+      text-align: center;
     }
 
     .controls {
       display: flex;
-      flex-direction: column;
+      flex-wrap: wrap;
       gap: 0.5rem;
+      justify-content: center;
     }
 
     .controls select,
     .controls button {
+      flex: 1 1 120px;
       padding: 0.5rem;
       font-size: 1rem;
       border: none;
-      border-radius: 0.375rem;
+      border-radius: var(--radius);
       background: white;
-      color: #111827;
-      width: 100%;
+      color: var(--text);
     }
 
     button.nav {
-      background: #2563eb;
+      background: var(--secondary);
       color: white;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button.nav:hover {
+      background: #1d4ed8;
     }
 
     main {
+      flex: 1;
       display: flex;
       flex-direction: column;
+      padding: 1rem;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
     #content {
-      padding: 1rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    @media(min-width: 768px) {
+      #content {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      }
+
+      .controls {
+        justify-content: space-between;
+      }
     }
 
     .translation {
+      background: white;
       padding: 1rem;
-      margin-bottom: 1rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
     .translation h2 {
-      margin: 0 0 0.5rem;
-      color: #2563eb;
+      margin-top: 0;
+      font-size: 1.1rem;
+      color: var(--secondary);
     }
 
     .translation p {
-      margin: 0;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .lang-en { background: #FFF3E0; }
@@ -81,23 +123,20 @@
     .lang-sq { background: #FFEBEE; }
 
     #image-panel {
-      padding: 1rem;
-      border-top: 1px solid #ddd;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      margin-top: 2rem;
+      text-align: center;
     }
 
     #verse-image {
       max-width: 100%;
-      height: auto;
-      border-radius: 0.5rem;
+      border-radius: var(--radius);
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      margin-bottom: 0.5rem;
     }
 
     .progress {
-      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      color: #6b7280;
     }
   </style>
 </head>
@@ -116,7 +155,7 @@
   <main>
     <section id="content"></section>
     <aside id="image-panel">
-      <img id="verse-image" src="https://via.placeholder.com/300x200.png?text=Verse+Image" alt="Verse Illustration">
+      <img id="verse-image" src="https://via.placeholder.com/600x400.png?text=Verse+Image" alt="Verse Illustration">
       <div class="progress" id="progress">1 / 1</div>
     </aside>
   </main>
@@ -296,50 +335,49 @@
     const progress = document.getElementById('progress');
 
     function populate() {
-      Object.keys(data).forEach(b => bookSel.append(new Option(b,b)));
+      Object.keys(data).forEach(b => bookSel.append(new Option(b, b)));
       bookSel.onchange = () => {
         chapSel.innerHTML = '';
-        Object.keys(data[bookSel.value]).forEach(c => chapSel.append(new Option('Chapter '+c, c)));
+        Object.keys(data[bookSel.value]).forEach(c => chapSel.append(new Option('Chapter ' + c, c)));
         chapSel.onchange();
       };
       chapSel.onchange = () => {
         verseSel.innerHTML = '';
-        data[bookSel.value][chapSel.value].forEach((_,i) => verseSel.append(new Option('Verse '+(i+1), i)));
+        data[bookSel.value][chapSel.value].forEach((_, i) => verseSel.append(new Option('Verse ' + (i + 1), i)));
         render();
       };
       verseSel.onchange = render;
       prevBtn.onclick = () => changeVerse(-1);
       nextBtn.onclick = () => changeVerse(1);
       document.addEventListener('keydown', e => {
-        if(e.key==='ArrowLeft') changeVerse(-1);
-        if(e.key==='ArrowRight') changeVerse(1);
+        if (e.key === 'ArrowLeft') changeVerse(-1);
+        if (e.key === 'ArrowRight') changeVerse(1);
       });
       bookSel.onchange();
     }
 
     function changeVerse(offset) {
-      let idx = +verseSel.value+offset;
-      const max = data[bookSel.value][chapSel.value].length-1;
+      let idx = +verseSel.value + offset;
+      const max = data[bookSel.value][chapSel.value].length - 1;
       idx = Math.min(max, Math.max(0, idx));
-      verseSel.value = idx; render();
+      verseSel.value = idx;
+      render();
     }
 
-    function render(){
-      const b=bookSel.value, c=chapSel.value, v=+verseSel.value;
-      const verse=data[b][c][v];
-      content.innerHTML='';
-      Object.entries(langs).forEach(([code,name])=>{
-        const div=document.createElement('div');
-        div.className=`translation lang-${code}`;
-        div.innerHTML=`<h2>${name}</h2><p>${verse[code]}</p>`;
+    function render() {
+      const b = bookSel.value, c = chapSel.value, v = +verseSel.value;
+      const verse = data[b][c][v];
+      content.innerHTML = '';
+      Object.entries(langs).forEach(([code, name]) => {
+        const div = document.createElement('div');
+        div.className = `translation lang-${code}`;
+        div.innerHTML = `<h2>${name}</h2><p>${verse[code]}</p>`;
         content.append(div);
       });
-      img.classList.remove('loaded');
-      img.onload=()=>img.classList.add('loaded');
-      img.src=`${imageBase}/${v+1}.jpg`;
-      prevBtn.disabled=v===0;
-      nextBtn.disabled=v===data[b][c].length-1;
-      progress.textContent=`${v+1} / ${data[b][c].length}`;
+      img.src = `${imageBase}/${v + 1}.jpg`;
+      prevBtn.disabled = v === 0;
+      nextBtn.disabled = v === data[b][c].length - 1;
+      progress.textContent = `${v + 1} / ${data[b][c].length}`;
     }
 
     populate();
