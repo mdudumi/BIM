@@ -53,12 +53,21 @@
     }
 
     .controls select,
-    .controls button {
+    .controls button,
+    .controls input[type="text"] {
       flex: 1 1 120px;
       padding: 0.5rem;
       font-size: 1rem;
       border: none;
       border-radius: var(--radius);
+    }
+
+    .controls input[type="text"] {
+      flex: 2 1 200px;
+    }
+
+    .controls select,
+    .controls input[type="text"] {
       background: white;
       color: var(--text);
     }
@@ -149,6 +158,8 @@
       <select id="verse-select"></select>
       <button class="nav" id="prev-btn">◀ Prev</button>
       <button class="nav" id="next-btn">Next ▶</button>
+      <input type="text" id="search-input" placeholder="Search...">
+      <button class="nav" id="search-btn">🔍 Search</button>
     </div>
   </header>
 
@@ -159,6 +170,7 @@
       <div class="progress" id="progress">1 / 1</div>
     </aside>
   </main>
+
 
   <script>
                  const data = {
@@ -333,6 +345,8 @@
     const content = document.getElementById('content');
     const img = document.getElementById('verse-image');
     const progress = document.getElementById('progress');
+    const searchBtn = document.getElementById('search-btn');
+    const searchInput = document.getElementById('search-input');
 
     function populate() {
       Object.keys(data).forEach(b => bookSel.append(new Option(b, b)));
@@ -353,6 +367,7 @@
         if (e.key === 'ArrowLeft') changeVerse(-1);
         if (e.key === 'ArrowRight') changeVerse(1);
       });
+      searchBtn.onclick = searchVerse;
       bookSel.onchange();
     }
 
@@ -378,6 +393,25 @@
       prevBtn.disabled = v === 0;
       nextBtn.disabled = v === data[b][c].length - 1;
       progress.textContent = `${v + 1} / ${data[b][c].length}`;
+    }
+
+    function searchVerse() {
+      const term = searchInput.value.trim().toLowerCase();
+      const b = bookSel.value, c = chapSel.value;
+      const verses = data[b][c];
+
+      if (!term) return;
+
+      let foundIndex = verses.findIndex(verse =>
+        Object.values(verse).some(text => text.toLowerCase().includes(term))
+      );
+
+      if (foundIndex !== -1) {
+        verseSel.value = foundIndex;
+        render();
+      } else {
+        alert('No match found in this chapter.');
+      }
     }
 
     populate();
