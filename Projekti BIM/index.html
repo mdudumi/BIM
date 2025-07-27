@@ -6,151 +6,177 @@
   <title>Bible Multilingual Study</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --primary: #1e3a8a;
-      --secondary: #2563eb;
-      --bg: #f3f4f6;
-      --text: #111827;
-      --accent: #f59e0b;
-      --color-en: #FFF3E0;
-      --color-fr: #E0F7FA;
-      --color-it: #F3E5F5;
-      --color-de: #E8F5E9;
-      --color-sq: #FFEBEE;
-      --transition: 0.3s ease;
-    }
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-    header {
-      background: var(--primary);
-      color: white;
-      padding: 0.75rem 1rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    header h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      flex: 1 1 100%;
-    }
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      align-items: center;
-    }
-    select,
-    button {
-      padding: 0.5rem 0.75rem;
-      border: none;
-      border-radius: 0.375rem;
-      font-size: 1rem;
-      background: white;
-      color: var(--text);
-      cursor: pointer;
-      transition: background var(--transition);
-    }
-    button.nav {
-      background: var(--secondary);
-      color: white;
-    }
+  :root {
+    --primary: #1e3a8a;
+    --secondary: #2563eb;
+    --bg: #f3f4f6;
+    --text: #111827;
+    --accent: #f59e0b;
+    --color-en: #FFF3E0;
+    --color-fr: #E0F7FA;
+    --color-it: #F3E5F5;
+    --color-de: #E8F5E9;
+    --color-sq: #FFEBEE;
+    --transition: 0.3s ease;
+  }
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  header {
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    flex: 1 1 100%;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  select,
+  button {
+    padding: 0.5rem 0.75rem;
+    border: none;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    background: white;
+    color: var(--text);
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+  button.nav {
+    background: var(--secondary);
+    color: white;
+  }
+  main {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+  #content {
+    flex: 1 1 0;
+    background: white;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .translation {
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform var(--transition);
+  }
+  .translation:hover {
+    transform: translateY(-3px);
+  }
+  .lang-en { background: var(--color-en); }
+  .lang-fr { background: var(--color-fr); }
+  .lang-it { background: var(--color-it); }
+  .lang-de { background: var(--color-de); }
+  .lang-sq { background: var(--color-sq); }
+  .translation h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    color: var(--secondary);
+  }
+  .translation p {
+    margin: 0;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+  #image-panel {
+    flex: 0 0 40%;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-left: 1px solid #ddd;
+  }
+  #verse-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+  #verse-image.loaded {
+    opacity: 1;
+  }
+  .progress {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  /* 📱 Mobile Responsive Styles */
+  @media (max-width: 768px) {
     main {
-      flex: 1;
-      display: flex;
-      overflow: hidden;
-    }
-    #content {
-      flex: 1 1 0;
-      background: white;
-      overflow-y: auto;
-      padding: 1rem;
-      display: flex;
       flex-direction: column;
-      gap: 1rem;
-    }
-    .translation {
-      border-radius: 0.5rem;
-      padding: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      transition: transform var(--transition);
-    }
-    .translation:hover {
-      transform: translateY(-3px);
-    }
-    .lang-en { background: var(--color-en); }
-    .lang-fr { background: var(--color-fr); }
-    .lang-it { background: var(--color-it); }
-    .lang-de { background: var(--color-de); }
-    .lang-sq { background: var(--color-sq); }
-    .translation h2 {
-      margin: 0 0 0.5rem;
-      font-size: 1.1rem;
-      color: var(--secondary);
-    }
-    .translation p {
-      margin: 0;
-      line-height: 1.5;
-    }
-    #image-panel {
-      flex: 0 0 40%;
-      background: var(--bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      border-left: 1px solid #ddd;
-    }
-    #verse-image {
-      max-width: 100%;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      opacity: 0;
-      transition: opacity var(--transition);
-    }
-    #verse-image.loaded {
-      opacity: 1;
-    }
-    .progress {
-      margin-top: 0.75rem;
-      font-size: 0.9rem;
-      color: var(--text);
     }
 
-    /* 📱 Mobile Responsive Styles */
-    @media (max-width: 768px) {
-      main {
-        flex-direction: column;
-      }
-      #image-panel {
-        flex: none;
-        width: 100%;
-        border-left: none;
-        border-top: 1px solid #ddd;
-      }
-      .controls select,
-      .controls button {
-        flex: 1 1 100%;
-        margin-top: 0.25rem;
-      }
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      #content {
-        padding: 1rem 0.75rem;
-      }
+    header {
+      flex-direction: column;
+      align-items: stretch;
     }
-  </style>
+
+    header h1 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .controls {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .controls select,
+    .controls button {
+      width: 100%;
+      margin-top: 0.25rem;
+    }
+
+    #content {
+      padding: 1rem 0.75rem;
+    }
+
+    #image-panel {
+      width: 100%;
+      border-left: none;
+      border-top: 1px solid #ddd;
+      padding: 1rem 0.5rem;
+    }
+
+    #verse-image {
+      width: 100%;
+      height: auto;
+    }
+
+    .translation {
+      margin-bottom: 1rem;
+    }
+  }
+</style>
 </head>
 <body>
   <header>
