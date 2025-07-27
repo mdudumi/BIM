@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Bible Multilingual Study</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
@@ -26,15 +29,15 @@
       color: var(--text);
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      min-height: 100vh;
     }
     header {
       background: var(--primary);
       color: white;
       padding: 0.75rem 1rem;
       display: flex;
-      align-items: center;
       flex-wrap: wrap;
+      align-items: center;
       gap: 0.5rem;
     }
     header h1 {
@@ -47,6 +50,7 @@
       flex-wrap: wrap;
       gap: 0.5rem;
       width: 100%;
+      justify-content: space-between;
     }
     select,
     button {
@@ -59,6 +63,7 @@
       cursor: pointer;
       transition: background var(--transition);
       flex: 1 1 48%;
+      min-width: 120px;
     }
     button.nav {
       background: var(--secondary);
@@ -133,12 +138,14 @@
     @media (max-width: 768px) {
       main {
         flex-direction: column;
+        height: auto;
       }
       #image-panel {
-        flex: 0 0 auto;
         width: 100%;
+        flex: none;
         border-left: none;
-        border-top: 1px solid #ddd;
+        border-top: 1px solid #ccc;
+        margin-top: 1rem;
       }
       .controls select,
       .controls button {
@@ -147,8 +154,9 @@
       header h1 {
         font-size: 1.25rem;
       }
-      .controls {
-        justify-content: space-between;
+      #verse-image {
+        width: 100%;
+        height: auto;
       }
     }
   </style>
