@@ -3,167 +3,103 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bible Multilingual Study</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Mobile Bible Study</title>
   <style>
-  :root {
-    --primary: #1e3a8a;
-    --secondary: #2563eb;
-    --bg: #f3f4f6;
-    --text: #111827;
-    --accent: #f59e0b;
-    --color-en: #FFF3E0;
-    --color-fr: #E0F7FA;
-    --color-it: #F3E5F5;
-    --color-de: #E8F5E9;
-    --color-sq: #FFEBEE;
-    --transition: 0.3s ease;
-  }
-
-  body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-
-  header {
-    background: var(--primary);
-    color: white;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .controls {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .controls select,
-  .controls button {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border-radius: 0.375rem;
-    border: none;
-    background: white;
-    color: var(--text);
-    width: 100%;
-  }
-
-  button.nav {
-    background: var(--secondary);
-    color: white;
-  }
-
-  main {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: hidden;
-  }
-
-  #content {
-    background: white;
-    padding: 1rem;
-    flex: 1;
-  }
-
-  .translation {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .translation h2 {
-    margin: 0 0 0.5rem;
-    font-size: 1.1rem;
-    color: var(--secondary);
-  }
-
-  .translation p {
-    margin: 0;
-    line-height: 1.6;
-    font-size: 1rem;
-  }
-
-  .lang-en { background: var(--color-en); }
-  .lang-fr { background: var(--color-fr); }
-  .lang-it { background: var(--color-it); }
-  .lang-de { background: var(--color-de); }
-  .lang-sq { background: var(--color-sq); }
-
-  #image-panel {
-    width: 100%;
-    padding: 1rem;
-    background: var(--bg);
-    border-top: 1px solid #ddd;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #verse-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    opacity: 0;
-    transition: opacity var(--transition);
-  }
-
-  #verse-image.loaded {
-    opacity: 1;
-  }
-
-  .progress {
-    margin-top: 0.75rem;
-    font-size: 0.9rem;
-    color: var(--text);
-  }
-
-  /* Optional: For tablets and up */
-  @media (min-width: 768px) {
-    main {
-      flex-direction: row;
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #f3f4f6;
+      color: #111827;
     }
 
-    #content {
-      flex: 3;
-      overflow-y: auto;
+    header {
+      background: #1e3a8a;
+      color: white;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
-    #image-panel {
-      flex: 2;
-      border-top: none;
-      border-left: 1px solid #ddd;
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
     }
 
     .controls {
-      flex-direction: row;
-      flex-wrap: wrap;
+      display: flex;
+      flex-direction: column;
       gap: 0.5rem;
     }
 
     .controls select,
     .controls button {
-      width: auto;
-      flex: 1;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 0.375rem;
+      background: white;
+      color: #111827;
+      width: 100%;
     }
-  }
-</style>
+
+    button.nav {
+      background: #2563eb;
+      color: white;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #content {
+      padding: 1rem;
+    }
+
+    .translation {
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .translation h2 {
+      margin: 0 0 0.5rem;
+      color: #2563eb;
+    }
+
+    .translation p {
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .lang-en { background: #FFF3E0; }
+    .lang-fr { background: #E0F7FA; }
+    .lang-it { background: #F3E5F5; }
+    .lang-de { background: #E8F5E9; }
+    .lang-sq { background: #FFEBEE; }
+
+    #image-panel {
+      padding: 1rem;
+      border-top: 1px solid #ddd;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #verse-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-bottom: 0.5rem;
+    }
+
+    .progress {
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -176,11 +112,12 @@
       <button class="nav" id="next-btn">Next ▶</button>
     </div>
   </header>
+
   <main>
     <section id="content"></section>
     <aside id="image-panel">
-      <img id="verse-image" alt="Verse Illustration">
-      <div class="progress" id="progress"></div>
+      <img id="verse-image" src="https://via.placeholder.com/300x200.png?text=Verse+Image" alt="Verse Illustration">
+      <div class="progress" id="progress">1 / 1</div>
     </aside>
   </main>
 
