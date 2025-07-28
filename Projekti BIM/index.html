@@ -64,10 +64,12 @@
 
     .controls input[type="text"] {
       flex: 2 1 200px;
+      background: white;
+      color: var(--text);
+      border: 1px solid #ccc; /* 👈 Added border for visibility */
     }
 
-    .controls select,
-    .controls input[type="text"] {
+    .controls select {
       background: white;
       color: var(--text);
     }
@@ -170,7 +172,6 @@
       <div class="progress" id="progress">1 / 1</div>
     </aside>
   </main>
-
 
   <script>
                  const data = {
@@ -334,87 +335,95 @@
         ]
       }
     };
-    const imageBase = 'Images/Zanafilla/Zanafilla 1';
-    const langs = { en: 'English', fr: 'Français', it: 'Italiano', de: 'Deutsch', sq: 'Shqip' };
+        document.addEventListener('DOMContentLoaded', () => {
+      const imageBase = 'Images/Zanafilla/Zanafilla 1';
+      const langs = { en: 'English', fr: 'Français', it: 'Italiano', de: 'Deutsch', sq: 'Shqip' };
 
-    const bookSel = document.getElementById('book-select');
-    const chapSel = document.getElementById('chapter-select');
-    const verseSel = document.getElementById('verse-select');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const content = document.getElementById('content');
-    const img = document.getElementById('verse-image');
-    const progress = document.getElementById('progress');
-    const searchBtn = document.getElementById('search-btn');
-    const searchInput = document.getElementById('search-input');
+      const bookSel = document.getElementById('book-select');
+      const chapSel = document.getElementById('chapter-select');
+      const verseSel = document.getElementById('verse-select');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const content = document.getElementById('content');
+      const img = document.getElementById('verse-image');
+      const progress = document.getElementById('progress');
+      const searchBtn = document.getElementById('search-btn');
+      const searchInput = document.getElementById('search-input');
 
-    function populate() {
-      Object.keys(data).forEach(b => bookSel.append(new Option(b, b)));
-      bookSel.onchange = () => {
-        chapSel.innerHTML = '';
-        Object.keys(data[bookSel.value]).forEach(c => chapSel.append(new Option('Chapter ' + c, c)));
-        chapSel.onchange();
-      };
-      chapSel.onchange = () => {
-        verseSel.innerHTML = '';
-        data[bookSel.value][chapSel.value].forEach((_, i) => verseSel.append(new Option('Verse ' + (i + 1), i)));
-        render();
-      };
-      verseSel.onchange = render;
-      prevBtn.onclick = () => changeVerse(-1);
-      nextBtn.onclick = () => changeVerse(1);
-      document.addEventListener('keydown', e => {
-        if (e.key === 'ArrowLeft') changeVerse(-1);
-        if (e.key === 'ArrowRight') changeVerse(1);
-      });
-      searchBtn.onclick = searchVerse;
-      bookSel.onchange();
-    }
+      function populate() {
+        Object.keys(data).forEach(b => bookSel.append(new Option(b, b)));
+        bookSel.onchange = () => {
+          chapSel.innerHTML = '';
+          Object.keys(data[bookSel.value]).forEach(c => chapSel.append(new Option('Chapter ' + c, c)));
+          chapSel.onchange();
+        };
+        chapSel.onchange = () => {
+          verseSel.innerHTML = '';
+          data[bookSel.value][chapSel.value].forEach((_, i) => verseSel.append(new Option('Verse ' + (i + 1), i)));
+          render();
+        };
+        verseSel.onchange = render;
+        prevBtn.onclick = () => changeVerse(-1);
+        nextBtn.onclick = () => changeVerse(1);
+        document.addEventListener('keydown', e => {
+          if (e.key === 'ArrowLeft') changeVerse(-1);
+          if (e.key === 'ArrowRight') changeVerse(1);
+        });
+        searchBtn.onclick = searchVerse;
 
-    function changeVerse(offset) {
-      let idx = +verseSel.value + offset;
-      const max = data[bookSel.value][chapSel.value].length - 1;
-      idx = Math.min(max, Math.max(0, idx));
-      verseSel.value = idx;
-      render();
-    }
+        // ✅ Enter key triggers search
+        searchInput.addEventListener('keydown', e => {
+          if (e.key === 'Enter') searchVerse();
+        });
 
-    function render() {
-      const b = bookSel.value, c = chapSel.value, v = +verseSel.value;
-      const verse = data[b][c][v];
-      content.innerHTML = '';
-      Object.entries(langs).forEach(([code, name]) => {
-        const div = document.createElement('div');
-        div.className = `translation lang-${code}`;
-        div.innerHTML = `<h2>${name}</h2><p>${verse[code]}</p>`;
-        content.append(div);
-      });
-      img.src = `${imageBase}/${v + 1}.jpg`;
-      prevBtn.disabled = v === 0;
-      nextBtn.disabled = v === data[b][c].length - 1;
-      progress.textContent = `${v + 1} / ${data[b][c].length}`;
-    }
-
-    function searchVerse() {
-      const term = searchInput.value.trim().toLowerCase();
-      const b = bookSel.value, c = chapSel.value;
-      const verses = data[b][c];
-
-      if (!term) return;
-
-      let foundIndex = verses.findIndex(verse =>
-        Object.values(verse).some(text => text.toLowerCase().includes(term))
-      );
-
-      if (foundIndex !== -1) {
-        verseSel.value = foundIndex;
-        render();
-      } else {
-        alert('No match found in this chapter.');
+        bookSel.onchange();
       }
-    }
 
-    populate();
+      function changeVerse(offset) {
+        let idx = +verseSel.value + offset;
+        const max = data[bookSel.value][chapSel.value].length - 1;
+        idx = Math.min(max, Math.max(0, idx));
+        verseSel.value = idx;
+        render();
+      }
+
+      function render() {
+        const b = bookSel.value, c = chapSel.value, v = +verseSel.value;
+        const verse = data[b][c][v];
+        content.innerHTML = '';
+        Object.entries(langs).forEach(([code, name]) => {
+          const div = document.createElement('div');
+          div.className = `translation lang-${code}`;
+          div.innerHTML = `<h2>${name}</h2><p>${verse[code]}</p>`;
+          content.append(div);
+        });
+        img.src = `${imageBase}/${v + 1}.jpg`;
+        prevBtn.disabled = v === 0;
+        nextBtn.disabled = v === data[b][c].length - 1;
+        progress.textContent = `${v + 1} / ${data[b][c].length}`;
+      }
+
+      function searchVerse() {
+        const term = searchInput.value.trim().toLowerCase();
+        const b = bookSel.value, c = chapSel.value;
+        const verses = data[b][c];
+
+        if (!term) return;
+
+        let foundIndex = verses.findIndex(verse =>
+          Object.values(verse).some(text => text.toLowerCase().includes(term))
+        );
+
+        if (foundIndex !== -1) {
+          verseSel.value = foundIndex;
+          render();
+        } else {
+          alert('No match found in this chapter.');
+        }
+      }
+
+      populate();
+    });
   </script>
 </body>
 </html>
